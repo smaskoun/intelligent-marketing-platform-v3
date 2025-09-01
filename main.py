@@ -15,8 +15,8 @@ from routes.market_data_routes import market_data_bp
 
 def create_app():
     """Create and configure the Flask application."""
-    # Correctly set the static folder path
-    app = Flask(__name__, static_folder='static')
+    # Set the static folder path
+    app = Flask(__name__, static_folder='static', template_folder='static')
 
     # --- Configuration ---
     db_url = os.environ.get('DATABASE_URL', 'sqlite:///local_dev.db')
@@ -36,16 +36,10 @@ def create_app():
     app.register_blueprint(market_data_bp, url_prefix='/api/market-data')
 
     # --- THIS IS THE FIX ---
-    # This route will now serve the main index.html file and handle all sub-paths
-    # for a Single Page Application (SPA).
-    @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
-    def serve(path):
-        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-            return send_from_directory(app.static_folder, path)
-        else:
-            # Always serve index.html as the fallback for a SPA
-            return send_from_directory(app.static_folder, 'index.html')
+    # This route will now serve the correct, self-contained HTML file.
+    @app.route('/')
+    def serve_app():
+        return render_template('social-media-automation.html')
     # ---------------------
 
     # --- Create Database Tables ---
