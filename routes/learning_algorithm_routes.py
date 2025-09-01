@@ -20,10 +20,12 @@ def get_content_recommendations():
         user_id = request.args.get("user_id", "default_user")
         content_type = request.args.get("type", "general")
         platform = request.args.get("platform", "instagram")
+        topic = request.args.get("topic")
         result = learning_algorithm_service.generate_content_recommendations(
             user_id=user_id,
             content_type=content_type,
             platform=platform,
+            topic=topic,
         )
         return jsonify(result)
     except Exception as exc:

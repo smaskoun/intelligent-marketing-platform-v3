@@ -7,6 +7,7 @@ analysis service to score the generated content.
 """
 
 import random
+from typing import Optional
 
 from models.social_media import TrainingData, db
 from services.seo_service import seo_service
@@ -16,7 +17,11 @@ class LearningAlgorithmService:
     """Service for generating new, SEO‑optimized content recommendations."""
 
     def generate_content_recommendations(
-        self, user_id: str, content_type: str, platform: str
+        self,
+        user_id: str,
+        content_type: str,
+        platform: str,
+        topic: Optional[str] = None,
     ) -> dict:
         """Generate content recommendations based on a topic and learned brand voice."""
         # Fetch training examples for the specific user and content type
@@ -39,8 +44,8 @@ class LearningAlgorithmService:
         for i in range(3):
             base_example = random.choice(training_examples)
             focus = f"Variation {i + 1} based on your '{base_example.post_type}' style"
-            topic = f"A new post about {content_type.replace('_', ' ')}"
-            new_content = f"{topic}.\n\n(Inspired by your post: '{base_example.content[:50]}...')"
+            topic_line = topic or f"A new post about {content_type.replace('_', ' ')}"
+            new_content = f"{topic_line}.\n\n(Inspired by your post: '{base_example.content[:50]}...')"
             seo_analysis = seo_service.analyze_content(new_content)
 
             recommendations.append(

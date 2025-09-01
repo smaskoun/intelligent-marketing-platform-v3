@@ -165,6 +165,7 @@ class ContentPlatform {
     async generateContent() {
         const topicInput = document.getElementById('generator-topic');
         const typeSelect = document.getElementById('generator-type');
+        const platformSelect = document.getElementById('generator-platform');
         const generateButton = document.getElementById('generate-content-btn');
         const resultsContainer = document.getElementById('generator-results');
         if (!topicInput || !topicInput.value.trim()) {
@@ -175,7 +176,8 @@ class ContentPlatform {
         generateButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating...';
         resultsContainer.innerHTML = '<div class="text-center text-gray-500 p-4">Generating content, please wait...</div>';
         try {
-            const response = await fetch(`${this.apiBase}/learning/content-recommendations?topic=${encodeURIComponent(topicInput.value)}&content_type=${typeSelect.value}`);
+            const platformParam = platformSelect ? `&platform=${encodeURIComponent(platformSelect.value)}` : '';
+            const response = await fetch(`${this.apiBase}/learning/content-recommendations?type=${encodeURIComponent(typeSelect.value)}&topic=${encodeURIComponent(topicInput.value)}${platformParam}`);
             const result = await response.json();
             if (response.ok && result.success) {
                 this.displayResults(result);
