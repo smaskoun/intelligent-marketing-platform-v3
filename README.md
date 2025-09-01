@@ -1,4 +1,4 @@
-# Intelligent Marketing Platform v2
+# Intelligent Marketing Platform v3
 
 This directory contains a cleaned‑up version of the original `intelligent‑marketing‑platform‑v2` repository.  The application is built with Flask and provides endpoints for brand‑voice training/analysis, learning algorithm recommendations, A/B testing, and real‑estate market data.
 
