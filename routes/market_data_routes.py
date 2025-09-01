@@ -1,8 +1,9 @@
+# routes/market_data_routes.py
 """
-Routes for real‑estate market data.
+Routes for real-estate market data.
 
 Provides endpoints to retrieve current market statistics and simple
-historical trends.  See `services.wecar_market_service` for the
+historical trends. See `services.wecar_market_service` for the
 implementation details.
 """
 
@@ -13,9 +14,12 @@ from services.wecar_market_service import wecar_market_service
 market_data_bp = Blueprint("market_data", __name__)
 
 
-@market_data_bp.route("/current-stats", methods=["GET"])
+@market_data_bp.route("/", methods=["GET"])
 def get_current_market_stats():
-    """Return current Windsor‑Essex market statistics."""
+    """
+    Return current Windsor-Essex market statistics.
+    This route now serves the base /api/market-data/ endpoint.
+    """
     try:
         data = wecar_market_service.get_market_data()
         return jsonify({"success": True, "data": data, "source": "WECAR", "message": "Current market statistics retrieved successfully"})
